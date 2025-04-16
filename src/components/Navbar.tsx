@@ -49,7 +49,11 @@ const Navbar = () => {
     >
       <div className="container mx-auto px-4 flex justify-between items-center">
         <Link to="/" className="flex items-center">
-          <Cake className="h-8 w-8 text-cake-gold mr-2" />
+          <img 
+            src="/lovable-uploads/d3042432-ff0c-42be-a771-f6b5a0403cbb.png" 
+            alt="SK Cakes Gallery Logo" 
+            className="h-10 w-10 mr-2 rounded-full"
+          />
           <span className="text-2xl font-bold font-playfair text-cake-brown">SK Cake</span>
         </Link>
         
