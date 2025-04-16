@@ -1,8 +1,8 @@
-
 import { Link } from "react-router-dom";
 import { ChevronRight, Star, Calendar, Cake, Award, Clock, Heart } from "lucide-react";
 import CakeCard from "@/components/CakeCard";
 import TestimonialCard from "@/components/TestimonialCard";
+import WavesDivider from "@/components/WavesDivider";
 import { motion } from "framer-motion";
 
 const Index = () => {
@@ -154,6 +154,18 @@ const Index = () => {
           </div>
         </div>
       </section>
+
+      {/* Wave Divider */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+      >
+        <WavesDivider 
+          waveType="layered" 
+          fillColor="#FFEEF2" 
+        />
+      </motion.div>
 
       {/* Our Specialties */}
       <section className="section-padding bg-cake-light">
