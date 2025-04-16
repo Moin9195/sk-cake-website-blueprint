@@ -1,6 +1,7 @@
 
 import { Link } from "react-router-dom";
 import { CheckCircle2 } from "lucide-react";
+import { motion } from "framer-motion";
 
 const Services = () => {
   const cakeCategories = [
@@ -66,70 +67,176 @@ const Services = () => {
     }
   ];
 
+  // Animation variants
+  const fadeIn = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 }
+  };
+  
+  const stagger = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2
+      }
+    }
+  };
+
+  const listItem = {
+    hidden: { opacity: 0, x: -10 },
+    visible: { opacity: 1, x: 0 }
+  };
+
   return (
     <>
-      {/* Hero Section */}
-      <section className="pt-32 pb-16 bg-cake-pink/20">
+      {/* Hero Section with Animation */}
+      <motion.section 
+        className="pt-32 pb-16 bg-cake-pink/20"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.8 }}
+      >
         <div className="container mx-auto px-4">
-          <div className="text-center">
-            <h1 className="text-4xl md:text-5xl font-bold font-playfair text-cake-brown mb-4">
+          <motion.div 
+            className="text-center"
+            initial="hidden"
+            animate="visible"
+            variants={fadeIn}
+            transition={{ duration: 0.7 }}
+          >
+            <motion.h1 
+              className="text-4xl md:text-5xl font-bold font-playfair text-cake-brown mb-4"
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.6 }}
+            >
               What We Offer
-            </h1>
-            <p className="text-xl max-w-3xl mx-auto">
+            </motion.h1>
+            <motion.p 
+              className="text-xl max-w-3xl mx-auto"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5, duration: 0.6 }}
+            >
               We specialize in a wide variety of cakes to match your celebration style
-            </p>
-          </div>
+            </motion.p>
+          </motion.div>
         </div>
-      </section>
+      </motion.section>
 
-      {/* Services Section */}
+      {/* Services Section with Animations */}
       <section className="py-16">
         <div className="container mx-auto px-4">
           <div className="space-y-24">
             {cakeCategories.map((category, index) => (
-              <div 
+              <motion.div 
                 key={category.name} 
                 className={`grid grid-cols-1 lg:grid-cols-2 gap-12 items-center ${
                   index % 2 !== 0 ? 'lg:grid-flow-dense' : ''
                 }`}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.3 }}
+                variants={fadeIn}
+                transition={{ duration: 0.8, delay: 0.1 }}
               >
                 <div className={`${index % 2 !== 0 ? 'lg:col-start-2' : ''}`}>
-                  <h2 className="text-3xl font-semibold font-playfair text-cake-brown mb-4">
+                  <motion.h2 
+                    className="text-3xl font-semibold font-playfair text-cake-brown mb-4"
+                    initial={{ opacity: 0, y: -10 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5 }}
+                  >
                     {category.name}
-                  </h2>
-                  <p className="mb-6 text-lg">
+                  </motion.h2>
+                  <motion.p 
+                    className="mb-6 text-lg"
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: 0.1 }}
+                  >
                     {category.description}
-                  </p>
-                  <ul className="space-y-3 mb-8">
+                  </motion.p>
+                  <motion.ul 
+                    className="space-y-3 mb-8"
+                    variants={stagger}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true }}
+                  >
                     {category.features.map((feature) => (
-                      <li key={feature} className="flex items-start">
+                      <motion.li 
+                        key={feature} 
+                        className="flex items-start"
+                        variants={listItem}
+                        transition={{ duration: 0.3 }}
+                      >
                         <CheckCircle2 className="text-cake-gold mr-2 mt-1 flex-shrink-0" size={18} />
                         <span>{feature}</span>
-                      </li>
+                      </motion.li>
                     ))}
-                  </ul>
-                  <Link to="/order" className="btn-accent inline-block">
-                    Order {category.name}
-                  </Link>
+                  </motion.ul>
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: 0.3 }}
+                  >
+                    <Link to="/order" className="btn-accent inline-block hover:scale-105 transition duration-300">
+                      Order {category.name}
+                    </Link>
+                  </motion.div>
                 </div>
-                <div className={`relative ${index % 2 !== 0 ? 'lg:col-start-1' : ''}`}>
+                <motion.div 
+                  className={`relative ${index % 2 !== 0 ? 'lg:col-start-1' : ''}`}
+                  initial={{ opacity: 0, x: index % 2 === 0 ? 50 : -50 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.7 }}
+                  whileHover={{ scale: 1.02 }}
+                >
                   <img
                     src={category.image}
                     alt={category.name}
                     className="rounded-lg shadow-xl w-full"
                   />
-                  <div className="absolute -bottom-4 -right-4 bg-cake-pink/20 w-1/3 h-1/3 -z-10 rounded-lg"></div>
-                </div>
-              </div>
+                  <motion.div 
+                    className="absolute -bottom-4 -right-4 bg-cake-pink/20 w-1/3 h-1/3 -z-10 rounded-lg"
+                    animate={{ 
+                      scale: [1, 1.05, 1],
+                      rotate: [0, 1, 0]
+                    }}
+                    transition={{ 
+                      duration: 4,
+                      repeat: Infinity,
+                      repeatType: "reverse"
+                    }}
+                  />
+                </motion.div>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
 
       {/* Pricing Information */}
-      <section className="py-16 bg-cake-cream/50">
+      <motion.section 
+        className="py-16 bg-cake-cream/50"
+        initial="hidden"
+        whileInView="visible"
+        variants={fadeIn}
+        viewport={{ once: true, amount: 0.1 }}
+        transition={{ duration: 0.6 }}
+      >
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
+          <motion.div 
+            className="text-center mb-12"
+            variants={fadeIn}
+            transition={{ duration: 0.7, delay: 0.1 }}
+          >
             <h2 className="text-3xl font-semibold font-playfair text-cake-brown mb-4">
               Pricing Information
             </h2>
@@ -137,97 +244,155 @@ const Services = () => {
               Our cakes are priced based on design complexity, size, and special requirements. 
               Contact us for a custom quote tailored to your specific needs.
             </p>
-          </div>
+          </motion.div>
           
-          <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-lg p-8">
+          <motion.div 
+            className="max-w-4xl mx-auto bg-white rounded-lg shadow-lg p-8"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            whileHover={{ boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)" }}
+          >
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div>
+              <motion.div
+                variants={stagger}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+              >
                 <h3 className="text-xl font-semibold font-playfair mb-4">Starting Prices</h3>
                 <ul className="space-y-3">
-                  <li className="flex justify-between">
-                    <span>Custom Cakes</span>
-                    <span className="font-semibold">from ₹1200</span>
-                  </li>
-                  <li className="flex justify-between">
-                    <span>Wedding Cakes (per tier)</span>
-                    <span className="font-semibold">from ₹3000</span>
-                  </li>
-                  <li className="flex justify-between">
-                    <span>Birthday Cakes</span>
-                    <span className="font-semibold">from ₹800</span>
-                  </li>
-                  <li className="flex justify-between">
-                    <span>Cupcakes (dozen)</span>
-                    <span className="font-semibold">from ₹600</span>
-                  </li>
+                  {[
+                    { name: "Custom Cakes", price: "from ₹1200" },
+                    { name: "Wedding Cakes (per tier)", price: "from ₹3000" },
+                    { name: "Birthday Cakes", price: "from ₹800" },
+                    { name: "Cupcakes (dozen)", price: "from ₹600" }
+                  ].map((item) => (
+                    <motion.li 
+                      key={item.name} 
+                      className="flex justify-between"
+                      variants={listItem}
+                      transition={{ duration: 0.3 }}
+                      whileHover={{ x: 5 }}
+                    >
+                      <span>{item.name}</span>
+                      <span className="font-semibold">{item.price}</span>
+                    </motion.li>
+                  ))}
                 </ul>
-              </div>
+              </motion.div>
               
-              <div>
+              <motion.div
+                variants={stagger}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                transition={{ delayChildren: 0.2 }}
+              >
                 <h3 className="text-xl font-semibold font-playfair mb-4">Additional Services</h3>
                 <ul className="space-y-3">
-                  <li className="flex justify-between">
-                    <span>Cake Toppers</span>
-                    <span className="font-semibold">from ₹200</span>
-                  </li>
-                  <li className="flex justify-between">
-                    <span>Special Dietary Options</span>
-                    <span className="font-semibold">+10%</span>
-                  </li>
-                  <li className="flex justify-between">
-                    <span>Delivery (within city)</span>
-                    <span className="font-semibold">from ₹200</span>
-                  </li>
-                  <li className="flex justify-between">
-                    <span>Rush Orders</span>
-                    <span className="font-semibold">+25%</span>
-                  </li>
+                  {[
+                    { name: "Cake Toppers", price: "from ₹200" },
+                    { name: "Special Dietary Options", price: "+10%" },
+                    { name: "Delivery (within city)", price: "from ₹200" },
+                    { name: "Rush Orders", price: "+25%" }
+                  ].map((item) => (
+                    <motion.li 
+                      key={item.name} 
+                      className="flex justify-between"
+                      variants={listItem}
+                      transition={{ duration: 0.3 }}
+                      whileHover={{ x: 5 }}
+                    >
+                      <span>{item.name}</span>
+                      <span className="font-semibold">{item.price}</span>
+                    </motion.li>
+                  ))}
                 </ul>
-              </div>
+              </motion.div>
             </div>
             
-            <div className="text-center mt-8">
+            <motion.div 
+              className="text-center mt-8"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.6, duration: 0.5 }}
+            >
               <p className="italic text-sm mb-4">
                 * Prices may vary based on complexity, size, and specific requirements.
               </p>
-              <Link to="/contact" className="btn-primary">
+              <Link to="/contact" className="btn-primary hover:scale-105 transition duration-300">
                 Get a Custom Quote
               </Link>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         </div>
-      </section>
+      </motion.section>
 
       {/* FAQ Section */}
-      <section className="py-16">
+      <motion.section 
+        className="py-16"
+        initial="hidden"
+        whileInView="visible"
+        variants={fadeIn}
+        viewport={{ once: true, amount: 0.1 }}
+        transition={{ duration: 0.6 }}
+      >
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-semibold font-playfair text-cake-brown text-center mb-12">
+          <motion.h2 
+            className="text-3xl font-semibold font-playfair text-cake-brown text-center mb-12"
+            variants={fadeIn}
+          >
             Frequently Asked Questions
-          </h2>
+          </motion.h2>
           
-          <div className="max-w-3xl mx-auto space-y-6">
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <h3 className="font-playfair text-xl font-semibold mb-2">How far in advance should I order?</h3>
-              <p>For standard cakes, we recommend ordering at least 3-5 days in advance. For wedding cakes or complex designs, 2-4 weeks is preferable. Last-minute orders may be accommodated based on availability.</p>
-            </div>
-            
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <h3 className="font-playfair text-xl font-semibold mb-2">Do you deliver?</h3>
-              <p>Yes, we offer delivery services within the city for an additional charge. The delivery fee depends on the distance from our location.</p>
-            </div>
-            
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <h3 className="font-playfair text-xl font-semibold mb-2">Can I get a cake tasting before ordering?</h3>
-              <p>Yes, we offer cake tastings for wedding cakes and large event orders. For standard orders, tastings can be arranged for a small fee.</p>
-            </div>
-            
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <h3 className="font-playfair text-xl font-semibold mb-2">Do you accommodate dietary restrictions?</h3>
-              <p>Absolutely! We offer eggless, dairy-free, and reduced sugar options. Gluten-free options are available upon request.</p>
-            </div>
-          </div>
+          <motion.div 
+            className="max-w-3xl mx-auto space-y-6"
+            variants={stagger}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+          >
+            {[
+              {
+                question: "How far in advance should I order?",
+                answer: "For standard cakes, we recommend ordering at least 3-5 days in advance. For wedding cakes or complex designs, 2-4 weeks is preferable. Last-minute orders may be accommodated based on availability."
+              },
+              {
+                question: "Do you deliver?",
+                answer: "Yes, we offer delivery services within the city for an additional charge. The delivery fee depends on the distance from our location."
+              },
+              {
+                question: "Can I get a cake tasting before ordering?",
+                answer: "Yes, we offer cake tastings for wedding cakes and large event orders. For standard orders, tastings can be arranged for a small fee."
+              },
+              {
+                question: "Do you accommodate dietary restrictions?",
+                answer: "Absolutely! We offer eggless, dairy-free, and reduced sugar options. Gluten-free options are available upon request."
+              }
+            ].map((faq, index) => (
+              <motion.div 
+                key={index}
+                className="bg-white p-6 rounded-lg shadow-md"
+                variants={{
+                  hidden: { opacity: 0, y: 20 },
+                  visible: { opacity: 1, y: 0 }
+                }}
+                transition={{ duration: 0.4, delay: index * 0.1 }}
+                whileHover={{ 
+                  y: -5,
+                  boxShadow: "0 15px 30px rgba(0,0,0,0.1)" 
+                }}
+              >
+                <h3 className="font-playfair text-xl font-semibold mb-2">{faq.question}</h3>
+                <p>{faq.answer}</p>
+              </motion.div>
+            ))}
+          </motion.div>
         </div>
-      </section>
+      </motion.section>
     </>
   );
 };
